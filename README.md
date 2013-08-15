@@ -5,7 +5,7 @@ generate the map faster.
 It needs a lot of work, but the plan it to generate an animated map of IPs gathered in
 [BGP Ranking](http://bgpranking.circl.lu/) over the time.
 
-[Example](https://raw.github.com/Rafiot/bgpranking-hilbert/master/example_day.png)
+![Example](https://raw.github.com/Rafiot/bgpranking-hilbert/master/example_day.png)
 
 
 
