@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Browsing the Internet Address Space</title>
+    <link rel="stylesheet" type="text/css" href="styles.css"/>
+    <script src="openlayers/OpenLayers.js"></script>
+    <script src="ull.js" type="text/javascript"></script>
+    <script src="hilbert.js"></script>
+    <script src="netlocator.js"></script>
+    <script src="Selector.js"></script>
+    <script src="Msg.js"></script>
+    <script src="PrefixScaleLine.js"></script>
+    <script src="dataplanes.js"></script>
+    <script src="display.js"></script>
+  </head>
+
+  <body onload="init()" onresize="setSize()" oncontextmenu="return false">
+    <div id="main">
+      <img onclick="nlctl.markIP($('#inputip').val(), true);" id="addbutton"
+        style="position: relative; width: 18px; height: 18px;float:right;"
+        src="openlayers/img/addmarker.png">
+      <div id="add_marker" style=" z-index: 2000; position: absolute; top: 20; font-family: monospace; font-weight: bold; margin-top: 3px margin-bottom: 3px; font-size: 8pt; color: white; background-color: transparent; padding-top: 0px; padding-bottom: 0px; width: 250px;"></div>
+      <div id="showranges" style=" z-index: 2000; position: absolute; top: 20;font-family: monospace; font-weight: bold; margin-top: 3px; margin-bottom: 3px; font-size: 8pt; color: white; background-color: transparent; padding-top: 0px; padding-bottom: 0px; width: 250px;"></div>
+      <div id="mylegend" style=" z-index: 2000; position: absolute; top: 120;font-family: monospace; font-weight: bold; margin-top: 3px; margin-bottom: 3px; font-size: 8pt; color: white; background-color: transparent; padding-top: 0px; padding-bottom: 0px; width: 250px;"></div>
+      <div id="sel_kind" style=" z-index: 2000; position: absolute; top: 120;font-family: monospace; font-weight: bold; margin-top: 3px; margin-bottom: 3px; font-size: 8pt; color: white; background-color: transparent; padding-top: 0px; padding-bottom: 0px; width: 250px;"></div>
+      <div id="info" style=" z-index: 2000; position: absolute; top: 120;font-family: monospace; font-weight: bold; margin-top: 3px; margin-bottom: 3px; font-size: 8pt; color: white; background-color: transparent; padding-top: 0px; padding-bottom: 0px; width: 250px;"></div>
+      <div id = "z0">
+        <img class = "z_img" id = "z0_img" style="width:180px;height:20px;left:8px;position:relative;top:50px;display:none" src="img/zoom_0_colors.png">
+      </div>
+      <div id = "z1">
+        <img class = "z_img" id = "z1_img" style="width:180px;height:20px;left:8px;position:relative;top:50px;display:none" src="img/zoom_1_colors.png">
+      </div>
+      <div id = "z2">
+        <img class = "z_img" id = "z2_img" style="width:180px;height:20px;left:8px;position:relative;top:50px;display:none" src="img/zoom_2_colors.png">
+      </div>
+      <div id = "z3">
+        <img class = "z_img" id = "z3_img" style="width:180px;height:20px;left:8px;position:relative;top:50px;display:none" src="img/zoom_3_colors.png">
+      </div>
+      <div id = "z4">
+        <img class = "z_img" id = "z4_img" style="width:180px;height:20px;left:8px;position:relative;top:50px;display:none" src="img/zoom_4_colors.png">
+      </div>
+      <div id = "z5">
+        <img class = "z_img" id = "z5_img" style="width:180px;height:20px;left:8px;position:relative;top:50px;display:none" src="img/zoom_5_colors.png">
+      </div>
+      <div id = "z6">
+        <img class = "z_img" id = "z6_img" style="width:180px;height:20px;left:8px;position:relative;top:50px;display:none" src="img/zoom_6_colors.png">
+      </div>
+      <div id = "z7">
+        <img class = "z_img" id = "z7_img" style="width:180px;height:20px;left:8px;position:relative;top:50px;display:none" src="img/zoom_7_colors.png">
+      </div>
+      <div id = "z8">
+        <img class = "z_img" id = "z8_img" style="width:180px;height:20px;left:8px;position:relative;top:50px;display:none" src="img/zoom_8_colors.png">
+      </div>
+      <div id="ipMap">
+        <div id="loc_link" style="font-size:x-small;font-weight:bold;color:white; background-color:black;position:absolute;bottom:5px;right:10px;z-index:2000;border:2px outset;"></div>
+      </div>
+    </div>
+  </body>
+</html>
+
