@@ -15,7 +15,8 @@ import Queue
 pngtoprocess = Queue.Queue()
 
 # size of the square
-tilesize = 256
+exp = 12
+tilesize = int(math.pow(2, exp))
 outputdir = None
 zoomlevel = None
 
@@ -80,8 +81,11 @@ def d2xy(n,d):
 
 def init_tile():
     # 16 is the value to change to have more dots in a tile
-    pixelnetmask = (zoomlevel * 2) + 16
+    pixelnetmask = (zoomlevel * 2) + exp * 2
     imagesize = int(math.sqrt(math.pow(2,pixelnetmask)))
+    # FIXME: dirty fix pixelnetmask cannot be > 32
+    if pixelnetmask > 32:
+        pixelnetmask = 32
     ipperpixel = int(math.pow(2,(32  - pixelnetmask)))
     return imagesize, ipperpixel
 
