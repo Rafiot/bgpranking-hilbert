@@ -15,7 +15,7 @@ import Queue
 pngtoprocess = Queue.Queue()
 
 # size of the square
-exp = 12
+exp = 10
 tilesize = int(math.pow(2, exp))
 outputdir = None
 zoomlevel = None
