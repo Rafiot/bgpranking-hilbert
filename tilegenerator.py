@@ -19,7 +19,7 @@ import socket
 pngtoprocess = Queue.Queue()
 
 # size of the square
-exp = 10
+exp = 8
 tilesize = pow(2, exp)
 power_of_two = []
 outputdir = None
@@ -36,7 +36,10 @@ def getcolor(value, size):
     elif value >= size:
         color = scale[-1]
     else:
-        details, low_bound = math.modf(value * len(scale) / float(math.log(size, 2)))
+        if size > 1:
+            details, low_bound = math.modf(value * len(scale) / float(math.log(size, 2)))
+        else:
+            details, low_bound = math.modf(value * len(scale))
         low_bound = int(low_bound)
         if low_bound >= len(scale) - 1:
             color = scale[-1]
@@ -87,6 +90,7 @@ def init_tile():
     pixelnetmask = (zoomlevel * 2) + exp * 2
     imagesize = int(math.sqrt(pow(2,pixelnetmask)))
     v = 1
+    power_of_two = []
     while v < imagesize:
         power_of_two.append(v)
         v *= 2
@@ -143,9 +147,7 @@ def generate_tiles(inputfile):
         make_tile(imagesize, ipperpixel, tileid, ip, img, count, True)
     print "done"
 
-def make_tile(imagesize, ipperpixel, lasttileid, ip, img,
-        count, eof=False):
-    global putpixel
+def make_tile(imagesize, ipperpixel, lasttileid, ip, img, count, eof=False):
     x_img, y_img = d2xy(ip)
 
     tile_x = int(x_img / (tilesize))
