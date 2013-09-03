@@ -23,8 +23,7 @@ power_of_two = []
 outputdir = None
 zoomlevel = None
 
-#scale = [0xF0FFFF, 0x00FF00, 0xFFFF00, 0xFF0000, 0x000000]
-scale = [0x00FF00, 0xFFFF00, 0xFF0000, 0x000000]
+scale = [(0,255,0), (255,255,0), (255,0,0), (0,0,0)]
 
 def getcolor(value, size):
     color = None
@@ -33,23 +32,22 @@ def getcolor(value, size):
     elif value >= size:
         color = scale[-1]
     else:
-        low_bound, details = math.modf(value * len(scale) / float(size))
+        details, low_bound = math.modf(value * len(scale) / float(math.log(size, 2)))
         low_bound = int(low_bound)
-        min_scale = scale[low_bound]
-        if low_bound == len(scale) - 1:
+        if low_bound >= len(scale) - 1:
             color = scale[-1]
         else:
+            min_scale = scale[low_bound]
             max_scale = scale[low_bound + 1]
-            if max_scale < min_scale:
-                interval = min_scale - max_scale
-                value_in_interval = int(interval * details)
-                color = min_scale - value_in_interval
-            else:
-                interval = max_scale - min_scale
-                value_in_interval = int(interval * details)
-                color = min_scale + value_in_interval
-    return color
-
+            color = []
+            for c1, c2 in zip(min_scale, max_scale):
+                if c1 == c2:
+                    color.append(c1)
+                elif c1 < c2:
+                    color.append(c1 + int(details * (c2 - c1)))
+                else:
+                    color.append(c1 - int(details * (c1 - c2)))
+    return tuple(color)
 
 def rot(n, x, y, rx, ry):
     """
