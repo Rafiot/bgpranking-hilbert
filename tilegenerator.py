@@ -11,12 +11,15 @@ from PIL import Image
 import math
 import threading
 import Queue
+import struct
+import socket
 
 pngtoprocess = Queue.Queue()
 
 # size of the square
 exp = 10
-tilesize = int(math.pow(2, exp))
+tilesize = pow(2, exp)
+power_of_two = []
 outputdir = None
 zoomlevel = None
 
@@ -30,8 +33,8 @@ def getcolor(value, size):
     elif value >= size:
         color = scale[-1]
     else:
-        low_bound = int(value * len(scale) / size)
-        details = value * len(scale) / float(size) %1
+        low_bound, details = math.modf(value * len(scale) / float(size))
+        low_bound = int(low_bound)
         min_scale = scale[low_bound]
         if low_bound == len(scale) - 1:
             color = scale[-1]
@@ -52,41 +55,43 @@ def rot(n, x, y, rx, ry):
     """
         See https://en.wikipedia.org/wiki/Hilbert_curve
     """
-    if ry == 0:
-        if (rx == 1):
-            x = n-1 - x;
-            y = n-1 - y;
-        t = x;
-        x = y;
-        y = t;
-    return (x,y)
+    if ry != 0:
+        return (x,y)
+    if rx == 1:
+        n -= 1
+        x = n - x;
+        y = n - y;
+    return (y,x)
 
-def d2xy(n,d):
+def d2xy(ip_int):
     """
         See https://en.wikipedia.org/wiki/Hilbert_curve
     """
-    t = d
     x = 0
     y = 0
     s = 1
-    while s<n:
-        rx = 1 & (t/2);
-        ry = 1 & (t ^ rx);
+    for s in power_of_two:
+        rx = 1 & (ip_int/2);
+        ry = 1 & (ip_int ^ rx);
         x,y = rot(s,x,y,rx,ry)
         x += s * rx
         y += s * ry
-        t /= 4;
-        s *= 2
+        ip_int /= 4;
     return x, y
 
 def init_tile():
+    global power_of_two
     # 16 is the value to change to have more dots in a tile
     pixelnetmask = (zoomlevel * 2) + exp * 2
-    imagesize = int(math.sqrt(math.pow(2,pixelnetmask)))
+    imagesize = int(math.sqrt(pow(2,pixelnetmask)))
+    v = 1
+    while v < imagesize:
+        power_of_two.append(v)
+        v *= 2
     # FIXME: dirty fix pixelnetmask cannot be > 32
     if pixelnetmask > 32:
         pixelnetmask = 32
-    ipperpixel = int(math.pow(2,(32  - pixelnetmask)))
+    ipperpixel = pow(2,(32  - pixelnetmask))
     return imagesize, ipperpixel
 
 def add_point(img, x_img, y_img, ipperpixel, count):
@@ -116,8 +121,7 @@ def generate_tiles(inputfile):
                 weight = 1
             else:
                 weight = float(weight)
-            b = [long(x) for x in ip.split('.')]
-            ip = (b[0] << 24) + (b[1] << 16) + (b[2] << 8) + b[3]
+            ip = struct.unpack("!I", socket.inet_aton(ip))[0]
 
             ip = int((ip - (ip % (ipperpixel))) / ipperpixel)
             if lastip is None:
@@ -140,10 +144,10 @@ def generate_tiles(inputfile):
 
 def make_tile(imagesize, ipperpixel, lasttileid, ip, img,
         count, eof=False):
-    x_img, y_img = d2xy(imagesize, ip)
+    x_img, y_img = d2xy(ip)
 
-    tile_x = int(math.floor(x_img / (tilesize)))
-    tile_y = int(math.floor(y_img / (tilesize)))
+    tile_x = int(x_img / (tilesize))
+    tile_y = int(y_img / (tilesize))
     tileid = (zoomlevel, tile_y, tile_x)
     if tileid != lasttileid:
         if img is not None:
@@ -190,16 +194,16 @@ def addPrivateOverlay():
 
     for ip_in in ips:
         ipstr, mask = ip_in.split("/")
-        overlaywidth = imagesize / math.sqrt( math.pow( -2,int(mask) ))
+        overlaywidth = imagesize / math.sqrt(pow( -2,int(mask)))
         if overlaywidth > 128 or overlaywidth < 4:
             continue
         b = [long(x) for x in ipstr.split('.')]
         ip = (b[0] << 24) + (b[1] << 16) + (b[2] << 8) + b[3]
         ip = int( (ip  - (ip % ipperpixel)) / ipperpixel)
 
-        x_img,y_img = d2xy(imagesize, ip)
-        tile_x = int(math.floor(x_img / tilesize))
-        tile_y = int(math.floor(y_img / tilesize))
+        x_img,y_img = d2xy(ip)
+        tile_x = int(x_img / tilesize)
+        tile_y = int(y_img / tilesize)
         x = x_img % tilesize
         y = y_img % tilesize
 
