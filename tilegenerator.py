@@ -8,6 +8,8 @@ import argparse
 import os
 import errno
 from PIL import Image
+from PIL import ImageDraw
+from PIL import ImageFont
 import math
 import threading
 import Queue
@@ -22,6 +24,8 @@ tilesize = pow(2, exp)
 power_of_two = []
 outputdir = None
 zoomlevel = None
+
+title = None
 
 scale = [(0,255,0), (255,255,0), (255,0,0), (0,0,0)]
 
@@ -92,12 +96,11 @@ def init_tile():
     ipperpixel = pow(2,(32  - pixelnetmask))
     return imagesize, ipperpixel
 
-def add_point(img, x_img, y_img, ipperpixel, count):
+def prepare_point(x_img, y_img, ipperpixel, count):
     x = x_img % tilesize
     y = y_img % tilesize
     color = getcolor(count, ipperpixel)
-    img.putpixel((x,y), color)
-    return img
+    return (x, y), color
 
 def generate_tiles(inputfile):
     imagesize, ipperpixel = init_tile()
@@ -142,6 +145,7 @@ def generate_tiles(inputfile):
 
 def make_tile(imagesize, ipperpixel, lasttileid, ip, img,
         count, eof=False):
+    global putpixel
     x_img, y_img = d2xy(ip)
 
     tile_x = int(x_img / (tilesize))
@@ -153,7 +157,8 @@ def make_tile(imagesize, ipperpixel, lasttileid, ip, img,
         img = Image.new('RGB', (tilesize, tilesize), 'WHITE')
         lasttileid = tileid
 
-    img = add_point(img, x_img, y_img, ipperpixel, count)
+    coord, color = prepare_point(x_img, y_img, ipperpixel, count)
+    img.putpixel(coord, color)
 
     if eof:
         dump_tile(img, tile_y, tile_x)
@@ -174,7 +179,11 @@ def make_tile_dir(tile_y):
 def dump_tile(img, tile_y, tile_x):
     cur_dir = make_tile_dir(tile_y)
     filename = os.path.join(cur_dir, str(tile_x) + '.png')
-    print filename
+    if title is not None:
+        font = ImageFont.truetype(\
+                "/usr/share/fonts/truetype/ttf-dejavu/DejaVuSansMono-Bold.ttf",20)
+        draw = ImageDraw.Draw(img)
+        draw.text((tilesize/2, 0), title, (0,0,0), font=font)
     img.save(filename)
     #print "saved %s" % tilename
     #pngtoprocess.put("optipng -o7 %s%s/%s/%s.png" % (outputdir,lasttileid[0],lasttileid[1],lasttileid[2]))
@@ -256,9 +265,13 @@ if __name__ == '__main__':
             help='Directory where the images are written')
     parser.add_argument('-z', '--zoomlevel', default=None, type=int,
             help='Zoomlevel to build, between 0 and 8. (If not set, build all)')
+    parser.add_argument('-t', '--title', default=None, type=str,
+        help='Add a title. It will be put on the top of the picture, you do not want it on OpenLayer')
+
     args = parser.parse_args()
 
     zoomlevel = args.zoomlevel
     outputdir = args.outputdir
+    title = args.title
     process_data(args.inputfile)
 
