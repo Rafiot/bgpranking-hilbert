@@ -11,9 +11,9 @@ Ull.prototype.ZEROBIT = 0x00000001;
 
 Ull.prototype.lshift1 = function(n) {
     while(n-- >0) {
-	this.h<<=1;
-	this.l<<=1;
-	if (this.l < 0) { this.h|= this.ZEROBIT; }
+    this.h<<=1;
+    this.l<<=1;
+    if (this.l < 0) { this.h|= this.ZEROBIT; }
     }
     this.l &= this.MAXMASK;
     this.h &= this.MAXMASK;
@@ -26,9 +26,9 @@ Ull.prototype.lshift = function(n) {
 };
 Ull.prototype.rshift1 = function(n) {
     while (n-- > 0) {
-	this.l>>=1;
-	if (this.h&this.ZEROBIT) { this.l|=this.HIGHBIT; }
-	this.h>>=1;
+    this.l>>=1;
+    if (this.h&this.ZEROBIT) { this.l|=this.HIGHBIT; }
+    this.h>>=1;
     }
     return this;
 };
@@ -48,8 +48,8 @@ Ull.prototype.neg = function()    {return new Ull((~this.h)&this.MAXMASK, (~this
 Ull.prototype.inc1 = function() {
     this.l++;
     if (this.l<0) {
-	this.l=0;
-	this.h++;
+    this.l=0;
+    this.h++;
     }
     return this;
 };
@@ -61,8 +61,8 @@ Ull.prototype.inc = function() {
 Ull.prototype.dec1 = function() {
     this.l--;
     if (this.l<0) {
-	this.l=this.MAXMASK;
-	this.h--;
+    this.l=this.MAXMASK;
+    this.h--;
     }
     return this;
 };

@@ -10,7 +10,7 @@ OpenLayers.Control.Selector =
      * {String}
      */
     activeColor: "darkblue",
-	/**
+    /**
      * Property: position
      * {String}
      */
@@ -198,14 +198,14 @@ OpenLayers.Control.Selector =
         this.clearBaseLayers();
         var options = {};
         var currentds = null;
-		var i = 0;
+        var i = 0;
         for (i=0, ds; ds=this.datasets[i]; ++i) {
             options[ds[this.selectionType]] = ds;
             if (map.baseLayer && ds.layer == map.baseLayer) {
                 currentds = ds;
             }
         }
-		if (i==0){return;}
+        if (i==0){return;}
         var selections = [];
         for (var opt in options) selections.push(opt);
         selections.sort();
@@ -372,12 +372,12 @@ OpenLayers.Control.Selector =
         //configure main div
         this.div.style.position = "absolute";
         this.div.style.top = this.topOffset + "px";
-		if(this.position == "right"){
-		  this.div.style.right = "0px";
-		}
+        if(this.position == "right"){
+          this.div.style.right = "0px";
+        }
 
         //this.div.style.left = "";
-	this.div.style.fontFamily="monospace";
+    this.div.style.fontFamily="monospace";
         //this.div.style.fontFamily = "sans-serif";
         this.div.style.fontWeight = "bold";
         this.div.style.marginTop = "3px";
@@ -397,7 +397,7 @@ OpenLayers.Control.Selector =
         this.layersDiv.style.backgroundColor = this.activeColor;
      //   this.layersDiv.style.width = "100%";
         this.layersDiv.style.height = "100%";
-	this.layersDiv.style.cursor = "pointer";
+    this.layersDiv.style.cursor = "pointer";
 
 
         this.baseLbl = document.createElement("div");
@@ -413,17 +413,17 @@ OpenLayers.Control.Selector =
         this.layersDiv.appendChild(this.baseLayersDiv);
 
         this.div.appendChild(this.layersDiv);
-		if(this.position == "right"){
-		  OpenLayers.Rico.Corner.round(this.div, {corners: "tl bl",
+        if(this.position == "right"){
+          OpenLayers.Rico.Corner.round(this.div, {corners: "tl bl",
                                         bgColor: "transparent",
                                         color: this.activeColor,
                                         blend: false});
-		}else{
-		  OpenLayers.Rico.Corner.round(this.div, {corners: "tr br",
+        }else{
+          OpenLayers.Rico.Corner.round(this.div, {corners: "tr br",
                                         bgColor: "transparent",
                                         color: this.activeColor,
                                         blend: false});
-		}
+        }
 
 
         OpenLayers.Rico.Corner.changeOpacity(this.layersDiv, 0.85);
@@ -432,11 +432,11 @@ OpenLayers.Control.Selector =
         var sz = new OpenLayers.Size(18,18);
 
         // maximize button div
-		if(this.position == "right"){
-			var img = imgLocation + 'plus-mini-right.png';
-		}else{
-			var img = imgLocation + 'plus-mini-left.png';
-		}
+        if(this.position == "right"){
+            var img = imgLocation + 'plus-mini-right.png';
+        }else{
+            var img = imgLocation + 'plus-mini-left.png';
+        }
         this.maximizeDiv = OpenLayers.Util.createAlphaImageDiv(
                                     "OpenLayers_Control_MaximizeDiv",
                                     null,
@@ -444,9 +444,9 @@ OpenLayers.Control.Selector =
                                     img,
                                     "absolute");
         this.maximizeDiv.style.top = "5px";
-		if(this.position == "right"){
-			this.maximizeDiv.style.right = "0px";
-		}
+        if(this.position == "right"){
+            this.maximizeDiv.style.right = "0px";
+        }
         this.maximizeDiv.style.left = "";
         this.maximizeDiv.style.display = "none";
         OpenLayers.Event.observe(this.maximizeDiv, "click",
@@ -465,9 +465,9 @@ OpenLayers.Control.Selector =
                                     img,
                                     "absolute");
         this.minimizeDiv.style.top = "5px";
-		if(this.position == "right"){
-			this.minimizeDiv.style.right = "0px";
-		}
+        if(this.position == "right"){
+            this.minimizeDiv.style.right = "0px";
+        }
         this.minimizeDiv.style.left = "";
         this.minimizeDiv.style.display = "none";
         OpenLayers.Event.observe(this.minimizeDiv, "click",

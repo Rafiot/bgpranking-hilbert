@@ -61,21 +61,21 @@ OpenLayers.Control.PrefixScaleLine = OpenLayers.Class(OpenLayers.Control, {
             this.ePix2Net.className = this.displayClass + "Pix2Net";
             this.div.appendChild(this.ePix2Net);
 
-			this.eWBracket = document.createElement("div");
+            this.eWBracket = document.createElement("div");
 
             this.eBBracket = document.createElement("div");
-			this.eBBracket.style.margin = "1px;";
-			this.eBBracket.style.position = "relative";
-			this.eBBracket.style.width = "256px";
+            this.eBBracket.style.margin = "1px;";
+            this.eBBracket.style.position = "relative";
+            this.eBBracket.style.width = "256px";
 
-			this.eWBracket.className = this.displayClass + "WBracket";
+            this.eWBracket.className = this.displayClass + "WBracket";
 
             this.eBBracket.className = this.displayClass + "BBracket";
 
             this.eWBracket.appendChild(this.eBBracket);
 
 
-	    this.div.appendChild(this.eWBracket);
+        this.div.appendChild(this.eWBracket);
 
         }
         this.map.events.register('zoomend', this, this.update);
@@ -89,44 +89,44 @@ OpenLayers.Control.PrefixScaleLine = OpenLayers.Class(OpenLayers.Control, {
      */
     update: function() {
         var zoom = this.map.getZoom();
-	var net = zoom<<1, btxt;
-	var value =  Math.pow(2,32- ( ((zoom<<1) + 16)));
-	if (value > 100000){
-		value = " ~ " +  ((value / 1000) + ".").split(".")[0] + " K" ;
-	}else{
-		value = " = " + value;
-	}
+    var net = zoom<<1, btxt;
+    var value =  Math.pow(2,32- ( ((zoom<<1) + 16)));
+    if (value > 100000){
+        value = " ~ " +  ((value / 1000) + ".").split(".")[0] + " K" ;
+    }else{
+        value = " = " + value;
+    }
 
-	if (zoom > 8) {
-	  btxt = (1<<(zoom-8)) + " pixels : 1 Ip";
-	} else {
-	  btxt = "1 pixel : /" + ((zoom<<1) + 16) + value  + " IPs";
-	}
+    if (zoom > 8) {
+      btxt = (1<<(zoom-8)) + " pixels : 1 Ip";
+    } else {
+      btxt = "1 pixel : /" + ((zoom<<1) + 16) + value  + " IPs";
+    }
 
-	this.ePix2Net.innerHTML =
-	    '<span style="background-color:black; color:white;">&nbsp;&nbsp;'
+    this.ePix2Net.innerHTML =
+        '<span style="background-color:black; color:white;">&nbsp;&nbsp;'
             + btxt
-	    + '&nbsp;&nbsp;</span>';
+        + '&nbsp;&nbsp;</span>';
 
-	net = zoom<<1;
-	var value =Math.pow(2,32- ( ((zoom<<1) ))) ;
-	if (value > 1000000){
-		value = " ~ " +((value / 1000000) + ".").split(".")[0] + " Mil" ;
-	}else{
-		if (value > 1000){
-			value = " ~ " +((value / 1000) + ".").split(".")[0] + " K" ;
-		}else{
-			value = " = " + value;
-		}
-	}
-	net = net +  value + " IPs";
+    net = zoom<<1;
+    var value =Math.pow(2,32- ( ((zoom<<1) ))) ;
+    if (value > 1000000){
+        value = " ~ " +((value / 1000000) + ".").split(".")[0] + " Mil" ;
+    }else{
+        if (value > 1000){
+            value = " ~ " +((value / 1000) + ".").split(".")[0] + " K" ;
+        }else{
+            value = " = " + value;
+        }
+    }
+    net = net +  value + " IPs";
 
-	this.eBBracket.innerHTML =
-	    '<span style="background-color:black; color:white;">&nbsp;&nbsp;/'
-	    + net + '&nbsp;&nbsp;</span>';
-	//this.eWBracket.removeChild(this.eBBracket);
+    this.eBBracket.innerHTML =
+        '<span style="background-color:black; color:white;">&nbsp;&nbsp;/'
+        + net + '&nbsp;&nbsp;</span>';
+    //this.eWBracket.removeChild(this.eBBracket);
 
-	this.eWBracket.appendChild(this.eBBracket);
+    this.eWBracket.appendChild(this.eBBracket);
     },
 
     CLASS_NAME: "OpenLayers.Control.PrefixScaleLine"

@@ -18,11 +18,6 @@ var infos = [
 
 var datasets = [
 
-    { kind:txt_1, info:infos[0], path:"tiles/icmp_echo/"},
-	{ kind:txt_2, info:infos[1], path:"tiles/ports_open/"},
-	{ kind:txt_3, info:infos[2], path:"tiles/open_reset/"},
-	{ kind:txt_4, info:infos[3], path:"tiles/open_timeout/"},
-	{ kind:txt_5, info:infos[4], path:"tiles/closed_reset/"},
-	{ kind:txt_6, info:infos[5], path:"tiles/rdns/"},
+    { kind:txt_1, info:infos[0], path:"../out/ips_2011-12-27/"},
     null
 ];

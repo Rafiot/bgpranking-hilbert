@@ -10,10 +10,10 @@ for (var i=0, ds; ds=datasets[i]; ++i) {
       format     : "image/png",
       type       : "png",
       visibility : true,
-	  animate : false,
+      animate : false,
       isBaseLayer: true,
       getURL     : getURL,
-	  buffer:0
+      buffer:0
     });
   ds.layer = l;
   l.lander_legend = legends[ds.kind];
@@ -38,37 +38,37 @@ function getURL(bounds) {
 
   if(z >= 2 ){
 
-	if(z==2){var val = 0.25;}
+    if(z==2){var val = 0.25;}
     if(z==3){var val = 0.5;}
-	if(z==4){var val = 1;}
-	if(z==5){var val = 2;}
-	if(z>=6){
-		var val = 1;
-		if(z==7){val =2;}
-		if(z==8){val =4;}
+    if(z==4){var val = 1;}
+    if(z==5){var val = 2;}
+    if(z>=6){
+        var val = 1;
+        if(z==7){val =2;}
+        if(z==8){val =4;}
 
-		for(var i=0;i<val;i++){
-			for(var j=0;j<val;j++){
-				if(x==(62*val)+i && y == (55*val)+j){ return "img/private_space.png"} // 172.16.0.0 /12
-			}
-		}
-		val = 4;
-	}
-	if(z==7){var val = 8;}
-	if(z==8){var val = 16;
-		if(x==241 && y == 113){ return  "img/private_space.png"} // 192.168.0.0 / 16
-		if(x==238 && y == 240){ return  "img/private_space.png"} // 169.254.0.0 / 16
-	}
-	for(var i=0;i<val;i++){
-		for(var j=0;j<val;j++){
-			if(z>=4){
-				if(x==(0*val)+i && y == (0*val)+j){ return "img/private_space.png"} // 0.
-				if(x==(7*val)+i && y == (8*val)+j){ return "img/private_space.png"} // 127.
-				if(x==(3*val)+i && y == (3*val)+j){ return "img/private_space.png"} // 10.
-			}
-		}
-	}
-	if(x>=(8*val) && y < (4*val)){ return "img/private_space.png"} // > 224.
+        for(var i=0;i<val;i++){
+            for(var j=0;j<val;j++){
+                if(x==(62*val)+i && y == (55*val)+j){ return "img/private_space.png"} // 172.16.0.0 /12
+            }
+        }
+        val = 4;
+    }
+    if(z==7){var val = 8;}
+    if(z==8){var val = 16;
+        if(x==241 && y == 113){ return  "img/private_space.png"} // 192.168.0.0 / 16
+        if(x==238 && y == 240){ return  "img/private_space.png"} // 169.254.0.0 / 16
+    }
+    for(var i=0;i<val;i++){
+        for(var j=0;j<val;j++){
+            if(z>=4){
+                if(x==(0*val)+i && y == (0*val)+j){ return "img/private_space.png"} // 0.
+                if(x==(7*val)+i && y == (8*val)+j){ return "img/private_space.png"} // 127.
+                if(x==(3*val)+i && y == (3*val)+j){ return "img/private_space.png"} // 10.
+            }
+        }
+    }
+    if(x>=(8*val) && y < (4*val)){ return "img/private_space.png"} // > 224.
 
   }
 
@@ -83,7 +83,7 @@ var clientip_ull;
 var clientip_ull_masked;
 var nlctl = new OpenLayers.Control.NetLocator({linkDiv:OpenLayers.Util.getElement("loc_link")});
 function getfoo(){
-	return nlctl
+    return nlctl
 }
 
 function init()
@@ -96,7 +96,7 @@ function init()
     controls      : [],
     numZoomLevels : NUMZOOMS,
     panRatio      : 256,
-	buffer: 0
+    buffer: 0
   };
 
   map = new OpenLayers.Map( "ipMap", options);
@@ -112,7 +112,8 @@ function init()
 
 
   map.addControl(nlctl);
-  map.addControl(new OpenLayers.Control.MouseDefaults());
+  // Does nnot exists anymore
+  //map.addControl(new OpenLayers.Control.MouseDefaults());
   map.addControl(new OpenLayers.Control.PrefixScaleLine());
 
   map.datasets = datasets;
@@ -120,10 +121,10 @@ function init()
    map.addControl(new OpenLayers.Control.Selector({
       div            :"add_marker",
       "activeColor"  :"gray",
-	  "position"     : "right",
+      "position"     : "right",
       "selectionType":"none",
-	   "headertxt":"Add Marker<div style=\"width:150px;\"id=\"markerinput\"></div>",
-	   "datasets"     :  [],
+       "headertxt":"Add Marker<div style=\"width:150px;\"id=\"markerinput\"></div>",
+       "datasets"     :  [],
       "topOffset"    : 5,
       "msgctl"       : msgctl
   }));
@@ -131,7 +132,7 @@ function init()
  map.addControl(new OpenLayers.Control.Selector({
       div            :"sel_kind",
       "activeColor"  :"gray",
-	  "position"     : "left",
+      "position"     : "left",
       "selectionType":"kind",
       "datasets"     : datasets,
       "topOffset"    : 100,
@@ -144,10 +145,10 @@ function init()
  map.addControl(new OpenLayers.Control.Selector({
       div            :"mylegend",
       "activeColor"  :"gray",
-	  "position"     : "left",
+      "position"     : "left",
       "selectionType":"kind",
       "datasets"     : [],
-	   "headertxt" : "<div  style=\"height:60px\" id=\"mylegenddiv\"></div>",
+       "headertxt" : "<div  style=\"height:60px\" id=\"mylegenddiv\"></div>",
       "topOffset"    : 5,
       "msgctl"       : msgctl
   }));
@@ -156,9 +157,9 @@ function init()
  map.addControl(new OpenLayers.Control.Selector({
       div            :"info",
       "activeColor"  :"gray",
-	  "position"     : "left",
+      "position"     : "left",
       "selectionType":"none",
-	  "headertxt" : "<span style=\"padding-left:20px\">Info</span><div id=\"infotxt\"></div>",
+      "headertxt" : "<span style=\"padding-left:20px\">Info</span><div id=\"infotxt\"></div>",
       "datasets"     : [],
       "topOffset"    : 245,
       "msgctl"       : msgctl
@@ -168,26 +169,26 @@ function init()
      map.addControl(new OpenLayers.Control.Selector({
       div            :"showranges",
       "activeColor"  :"gray",
-	  "position"     : "right",
+      "position"     : "right",
       "selectionType":"none",
-	  "headertxt":"Highlighted range<div id=\"mouserange\">none</div><div id=\"ranges\">none</div><div>enable overlay (slow)<input type=checkbox id=\"overlay_enable\"  onclick=\"map.events.triggerEvent('zoomend')\"></div>",
-	   "datasets"     :  [],
+      "headertxt":"Highlighted range<div id=\"mouserange\">none</div><div id=\"ranges\">none</div><div>enable overlay (slow)<input type=checkbox id=\"overlay_enable\"  onclick=\"map.events.triggerEvent('zoomend')\"></div>",
+       "datasets"     :  [],
       "topOffset"    : 80,
       "msgctl"       : msgctl
   }));
 
 
-	$("#markerinput").append( $("#inputip") );
-	$("#markerinput").append($("#addbutton") );
+    $("#markerinput").append( $("#inputip") );
+    $("#markerinput").append($("#addbutton") );
 
 
-	map.setCenter(new OpenLayers.LonLat(1<<15, 1<<15), 1);
-	map._onZoomEnd = function() {
+    map.setCenter(new OpenLayers.LonLat(1<<15, 1<<15), 1);
+    map._onZoomEnd = function() {
     if( $('#overlay_enable').attr('checked')){
-		jQuery("#ranges").html("right drag to select ranges");
-	}else{
-		jQuery("#ranges").html("");
-	}
+        jQuery("#ranges").html("right drag to select ranges");
+    }else{
+        jQuery("#ranges").html("");
+    }
 
     var z = this.getZoom();
 
@@ -199,10 +200,10 @@ function init()
     } else {
 
     }
-	this.netbits = (z<<1)+8;
+    this.netbits = (z<<1)+8;
 
-	this.netmask = new Ull(1, (0x7fffffff >> (this.netbits-1))^0x7fffffff);
-	jQuery("#infotxt").html(this.currentds.info);
+    this.netmask = new Ull(1, (0x7fffffff >> (this.netbits-1))^0x7fffffff);
+    jQuery("#infotxt").html(this.currentds.info);
 
 
 
@@ -215,11 +216,11 @@ function init()
     }
 
 
-	$("#mylegenddiv").append($(".olControlPanZoomBar") );
-	if(z>8){z=8;}
-	$(".z_img").hide();
-	$("#z"+z+"_img").show();
-	$("#mylegenddiv").append($("#z"+z+""))
+    $("#mylegenddiv").append($(".olControlPanZoomBar") );
+    if(z>8){z=8;}
+    $(".z_img").hide();
+    $("#z"+z+"_img").show();
+    $("#mylegenddiv").append($("#z"+z+""))
 
   };
 
@@ -246,8 +247,8 @@ function openPopups(nlctl) {
 function setSize() {
   var e = document.getElementById('ipMap');
   var h = (window.innerHeight != null)
-		? window.innerHeight
-		: document.documentElement.clientHeight;
+        ? window.innerHeight
+        : document.documentElement.clientHeight;
   e.style.height = (h) + "px";
   map.layers[0].redraw();
   var n = document.createTextNode(' ');
