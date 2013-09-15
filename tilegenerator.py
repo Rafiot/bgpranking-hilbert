@@ -19,7 +19,10 @@ import socket
 pngtoprocess = Queue.Queue()
 
 # size of the square
-exp = 8
+# default for the OpenLayer thing: 8
+# 12 means each dot is a /24
+# 10 is readable
+exp = 10
 tilesize = pow(2, exp)
 power_of_two = []
 outputdir = None
@@ -115,18 +118,19 @@ def generate_tiles(inputfile):
         lastip = None
         tileid = None
         img = None
+        list_ips = []
 
         for line in f:
             line = line.strip()
             if line == '':
                 continue
-            ip, weight = line.split(',')
+            ip_txt, weight = line.split(',')
             if len(weight) == 0:
                 # if the dump does not contains the weight
                 weight = 1
             else:
                 weight = float(weight)
-            ip = struct.unpack("!I", socket.inet_aton(ip))[0]
+            ip = struct.unpack("!I", socket.inet_aton(ip_txt))[0]
 
             ip = int((ip - (ip % (ipperpixel))) / ipperpixel)
             if lastip is None:
@@ -137,12 +141,16 @@ def generate_tiles(inputfile):
                 print "broken,use integer ordered ips"
                 exit(0)
             if ip != lastip:
+                #if count > 15:
+                #    print ip, list_ips, count
+                list_ips = []
                 tileid, img = make_tile(imagesize, ipperpixel,
                         tileid, ip, img, count)
                 lastip = ip
                 count = weight
             else:
                 count += weight
+            list_ips.append(ip_txt)
         # EOF, dump last tile
         make_tile(imagesize, ipperpixel, tileid, ip, img, count, True)
     print "done"
